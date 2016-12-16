@@ -59,6 +59,7 @@ void setup()   {
 void loop()                     
 {
   val = analogRead(5);
+  Serial.println(val);
   if(val<570){
     ledSpecify(ledPins[0][0], ledPins[0][1]);
   }
@@ -92,7 +93,7 @@ void loop()
   else if(val >935 && val < 948){
     ledSpecify(ledPins[10][0], ledPins[10][1]);
   }
-  else if(val >948){
+  else if(val >948 && val < 965){
     ledSpecify(ledPins[11][0], ledPins[11][1]);
   }
 }
@@ -107,7 +108,3 @@ void ledSpecify(int highPin, int lowPin) // This allows you to manually control 
   pinMode(pins[lowPin], OUTPUT); 
   digitalWrite(pins[lowPin], LOW); 
 }
-
-
-
-
