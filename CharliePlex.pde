@@ -1,6 +1,7 @@
 #include <avr/pgmspace.h>  
 
 int pins[4];
+int pinstwo[4];
 int blinkdelay = 200;   
 int runspeed = 150;      
 
@@ -44,7 +45,8 @@ const int ledPins[12][2] ={
 
 
 };
-int val = 0; //for the rotatory switch
+int val = 0;
+int val2 = 0;//for the rotatory switch
 
 void setup()   {                
 
@@ -53,13 +55,18 @@ void setup()   {
   pins[2] = 4;
   pins[3] = 5;
 
+  pinstwo[0] = 8;
+  pinstwo[1] = 9;
+  pinstwo[2] = 10;
+  pinstwo[3] = 11;
   Serial.begin(9600);
   
 }
 void loop()                     
 {
   val = analogRead(5);
-  Serial.println(val);
+  val2 = analogRead(0);
+  Serial.println(val2);
   if(val<570){
     //ledSpecify(ledPins[0][0], ledPins[0][1]);
     ledSpecify(ledPins[9][0], ledPins[9][1]);
@@ -108,6 +115,54 @@ void loop()
     
     ledSpecify(ledPins[6][0], ledPins[6][1]);
   }
+    if(val2<570){
+    //ledSpecify(ledPins[0][0], ledPins[0][1]);
+    ledSpecifytwo(ledPins[9][0], ledPins[9][1]);
+  }
+  else if(val2 >569 && val2 < 635){
+    //ledSpecify(ledPins[1][0], ledPins[1][1]);
+    ledSpecifytwo(ledPins[4][0], ledPins[4][1]);
+  }
+    else if(val2 >635 && val2 < 725){
+    //ledSpecify(ledPins[2][0], ledPins[2][1]);
+    ledSpecifytwo(ledPins[8][0], ledPins[8][1]);
+  }
+    else if(val2 >725 && val2 < 780){
+    //ledSpecify(ledPins[3][0], ledPins[3][1]);
+    ledSpecifytwo(ledPins[10][0], ledPins[10][1]);
+  }
+    else if(val2 >780 && val2 < 820){
+    //ledSpecify(ledPins[4][0], ledPins[4][1]);
+    ledSpecifytwo(ledPins[1][0], ledPins[1][1]);
+  }
+    else if(val2 >820 && val2 < 850){
+    //ledSpecify(ledPins[5][0], ledPins[5][1]);
+    ledSpecifytwo(ledPins[7][0], ledPins[7][1]);
+  }
+    else if(val2 >850 && val2 < 875){
+    //ledSpecify(ledPins[6][0], ledPins[6][1]);
+    ledSpecifytwo(ledPins[11][0], ledPins[11][1]);
+  }  
+  else if(val2 >875 && val2 < 895){
+    //ledSpecify(ledPins[7][0], ledPins[7][1]);
+    ledSpecifytwo(ledPins[5][0], ledPins[5][1]);
+  } 
+  else if(val2 >895 && val2 < 915){
+    //ledSpecify(ledPins[8][0], ledPins[8][1]);
+    ledSpecifytwo(ledPins[2][0], ledPins[2][1]);
+  }  
+  else if(val2 >915 && val2 < 935){
+    //ledSpecify(ledPins[9][0], ledPins[9][1]);
+    ledSpecifytwo(ledPins[0][0], ledPins[0][1]);
+  }
+  else if(val2 >935 && val2 < 948){
+    //ledSpecify(ledPins[10][0], ledPins[10][1]);
+    ledSpecifytwo(ledPins[3][0], ledPins[3][1]);
+  }
+  else if(val2 >948 && val2 < 965){
+    
+    ledSpecifytwo(ledPins[6][0], ledPins[6][1]);
+  }
 }
 
 void ledSpecify(int highPin, int lowPin) // This allows you to manually control which pin goes low & which one goes high
@@ -119,4 +174,15 @@ void ledSpecify(int highPin, int lowPin) // This allows you to manually control 
   digitalWrite(pins[highPin], HIGH);
   pinMode(pins[lowPin], OUTPUT); 
   digitalWrite(pins[lowPin], LOW); 
+}
+
+void ledSpecifytwo(int highPin, int lowPin) // This allows you to manually control which pin goes low & which one goes high
+{
+  for(int i; i < 4; i++){
+    pinMode(pinstwo[i], INPUT);
+  }
+  pinMode(pinstwo[highPin], OUTPUT); 
+  digitalWrite(pinstwo[highPin], HIGH);
+  pinMode(pinstwo[lowPin], OUTPUT); 
+  digitalWrite(pinstwo[lowPin], LOW); 
 }
