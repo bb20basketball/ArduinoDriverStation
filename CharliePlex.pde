@@ -1,5 +1,10 @@
-#include <avr/pgmspace.h>  
+#include <avr/pgmspace.h> 
 
+const unsigned long gcCycleDelta = 1000;
+const unsigned long gcAnalogDelta = 25;
+const unsigned long gcButtonDelta = 500;
+unsigned long gNextTime = 0;
+unsigned int gCurrentStep = 0;
 int pins[4];
 int pinstwo[4];
 int blinkdelay = 200;   
@@ -46,27 +51,29 @@ const int ledPins[12][2] ={
 
 };
 int val = 0;
-int val2 = 0;//for the rotatory switch
+int val2 = 0;
+void setup() {
+Serial.begin(9600);
+    Joystick.begin(true);
+  pinstwo[0] = 2;
+  pinstwo[1] = 3;
+  pinstwo[2] = 4;
+  pinstwo[3] = 5;
 
-void setup()   {                
-
-  pins[0] = 2;
-  pins[1] = 3;
-  pins[2] = 4;
-  pins[3] = 5;
-
-  pinstwo[0] = 8;
-  pinstwo[1] = 9;
-  pinstwo[2] = 10;
-  pinstwo[3] = 11;
-  Serial.begin(9600);
-  
+  pins[0] = 8;
+  pins[1] = 9;
+  pins[2] = 10;
+  pins[3] = 11;
+  pinMode(A0, INPUT_PULLUP);
+  pinMode(13, OUTPUT);
 }
-void loop()                     
-{
-  val = analogRead(5);
+
+void loop() {
+
+  Joystick.setXAxis((analogRead(4)/10));
+ val = analogRead(5);
   val2 = analogRead(0);
-  Serial.println(val2);
+  Serial.println(val);
   if(val<570){
     //ledSpecify(ledPins[0][0], ledPins[0][1]);
     ledSpecify(ledPins[9][0], ledPins[9][1]);
@@ -131,23 +138,23 @@ void loop()
     //ledSpecify(ledPins[3][0], ledPins[3][1]);
     ledSpecifytwo(ledPins[10][0], ledPins[10][1]);
   }
-    else if(val2 >780 && val2 < 820){
+    else if(val2 >780 && val2 < 830){
     //ledSpecify(ledPins[4][0], ledPins[4][1]);
     ledSpecifytwo(ledPins[1][0], ledPins[1][1]);
   }
-    else if(val2 >820 && val2 < 850){
+    else if(val2 >830 && val2 < 855){
     //ledSpecify(ledPins[5][0], ledPins[5][1]);
     ledSpecifytwo(ledPins[7][0], ledPins[7][1]);
   }
-    else if(val2 >850 && val2 < 875){
+    else if(val2 >855 && val2 < 885){
     //ledSpecify(ledPins[6][0], ledPins[6][1]);
     ledSpecifytwo(ledPins[11][0], ledPins[11][1]);
   }  
-  else if(val2 >875 && val2 < 895){
+  else if(val2 >885 && val2 < 905){
     //ledSpecify(ledPins[7][0], ledPins[7][1]);
     ledSpecifytwo(ledPins[5][0], ledPins[5][1]);
   } 
-  else if(val2 >895 && val2 < 915){
+  else if(val2 >905 && val2 < 915){
     //ledSpecify(ledPins[8][0], ledPins[8][1]);
     ledSpecifytwo(ledPins[2][0], ledPins[2][1]);
   }  
@@ -155,11 +162,11 @@ void loop()
     //ledSpecify(ledPins[9][0], ledPins[9][1]);
     ledSpecifytwo(ledPins[0][0], ledPins[0][1]);
   }
-  else if(val2 >935 && val2 < 948){
+  else if(val2 >935 && val2 < 952){
     //ledSpecify(ledPins[10][0], ledPins[10][1]);
     ledSpecifytwo(ledPins[3][0], ledPins[3][1]);
   }
-  else if(val2 >948 && val2 < 965){
+  else if(val2 >952 && val2 < 965){
     
     ledSpecifytwo(ledPins[6][0], ledPins[6][1]);
   }
@@ -185,4 +192,4 @@ void ledSpecifytwo(int highPin, int lowPin) // This allows you to manually contr
   digitalWrite(pinstwo[highPin], HIGH);
   pinMode(pinstwo[lowPin], OUTPUT); 
   digitalWrite(pinstwo[lowPin], LOW); 
-}
+  }
