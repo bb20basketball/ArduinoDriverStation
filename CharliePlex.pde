@@ -1,10 +1,5 @@
 #include <avr/pgmspace.h> 
 
-const unsigned long gcCycleDelta = 1000;
-const unsigned long gcAnalogDelta = 25;
-const unsigned long gcButtonDelta = 500;
-unsigned long gNextTime = 0;
-unsigned int gCurrentStep = 0;
 int pins[4];
 int pinstwo[4];
 int blinkdelay = 200;   
@@ -53,8 +48,8 @@ const int ledPins[12][2] ={
 int val = 0;
 int val2 = 0;
 void setup() {
-Serial.begin(9600);
-    Joystick.begin(true);
+  Serial.begin(9600);
+  Joystick.begin(true);
   pinstwo[0] = 2;
   pinstwo[1] = 3;
   pinstwo[2] = 4;
@@ -70,8 +65,9 @@ Serial.begin(9600);
 
 void loop() {
 
-  Joystick.setXAxis((analogRead(4)/10));
- val = analogRead(5);
+  Joystick.setXAxis((analogRead(5)));
+  Joystick.setYAxis((analogRead(0)));
+  val = analogRead(5);
   val2 = analogRead(0);
   Serial.println(val);
   if(val<570){
